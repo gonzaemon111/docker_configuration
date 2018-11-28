@@ -9,6 +9,11 @@ services:
       MYSQL_ROOT_PASSWORD: root #root userのパスワード
       MYSQL_SOCKET: "/var/lib/mysql/mysql.sock"
       MYSQL_HOST: db
+  
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
 
   webapp_server:
     build: ./sample_server/
@@ -21,15 +26,17 @@ services:
     tty: true #標準出力on
     depends_on:
       - db
+      - redis
     ports:
       - "4000:3000"
     volumes:
       - ./sample_server:/home/server
     command: >
-              bash -c 'bundle exec rails db:create &&
+              bash -c 'bundle exec rails db:create && 
               bundle exec rails db:migrate &&
+              bundle exec sidekiq -C config/sidekiq.yml -d &&
               bundle exec rails server -b 0.0.0.0'
-
+  
   webapp_frontend:
     build: ./sample_frontend/
     container_name: webapp_frontend
@@ -38,3 +45,4 @@ services:
       - "3333:3000"
     volumes:
       - ./sample_frontend:/sample_frontend
+
