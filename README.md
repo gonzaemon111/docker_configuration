@@ -13,7 +13,7 @@ $ vi docker-compose.yml # docker-compose.ymlの内容をコピペ
 
 ```
 $ pwd # <アプリケーション名>_dockerがカレントディレクトリになっていることを確認
-$ rails new <アプリケーション名> -d mysql -T
+$ rails new <アプリケーション名>_server -d mysql -T
 $ cd <アプリケーション名>
 $ vi Gemfile # コピペ
 $ vi Dockerfile # コピペ
@@ -42,7 +42,7 @@ Railsでの注意事項
 ```
 $ pwd # <アプリケーション名>_dockerがカレントディレクトリになっていることを確認
 $ yarn create nuxt-app <アプリケーション名>
-$ cd <アプリケーション名>
+$ cd <アプリケーション名>_frontend
 $ yarn
 $ vi Dockerfile # コピペ
 $ vi nuxt.config.js # 以下を書き換える -> エラー出る
@@ -72,3 +72,25 @@ module.exports = {
 }
 ```
 
+
+4. Docker
+
+```
+$ pwd # <アプリケーション名>_dockerであることを確認
+$ docker-compose build
+$ docker-compose up
+```
+
+以上を実行すると、
+
+localhost:3333  -> nuxt
+
+localhost:4000 -> Rails
+
+5. gitignore
+
+.gitignoreファイル
+```
+<アプリケーション名>_server
+<アプリケーション名>_frontend
+```
