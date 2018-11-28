@@ -77,7 +77,7 @@ module.exports = {
 ```
 
 
-4. Docker
+## 4. Docker
 
 ```
 $ pwd # <アプリケーション名>_dockerであることを確認
@@ -91,7 +91,7 @@ localhost:3333  -> nuxt
 
 localhost:4000 -> Rails
 
-5. gitignore
+## 5. gitignoreの設定
 
 .gitignoreファイル
 ```
