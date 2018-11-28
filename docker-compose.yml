@@ -1,0 +1,40 @@
+version: "3"
+services:
+  db:
+    image: mysql:5.7 #mysql5.7が準備されているimageを指定
+    ports:
+      - "3306:3306" # <-これがないと外からアクセス出来ない
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: root #root userのパスワード
+      MYSQL_SOCKET: "/var/lib/mysql/mysql.sock"
+      MYSQL_HOST: db
+
+  webapp_server:
+    build: ./sample_server/
+    container_name: webapp_server
+    environment:
+      TZ: "Asia/Tokyo"
+      MYSQL_SOCKET: "/var/lib/mysql/mysql.sock"
+      MYSQL_PASSWORD: root
+      MYSQL_HOST: db
+    tty: true #標準出力on
+    depends_on:
+      - db
+    ports:
+      - "4000:3000"
+    volumes:
+      - ./sample_server:/home/server
+    command: >
+              bash -c 'bundle exec rails db:create &&
+              bundle exec rails db:migrate &&
+              bundle exec rails server -b 0.0.0.0'
+
+  webapp_frontend:
+    build: ./sample_frontend/
+    container_name: webapp_frontend
+    tty: true
+    ports:
+      - "3333:3000"
+    volumes:
+      - ./sample_frontend:/sample_frontend
