@@ -18,6 +18,8 @@ $ cd <アプリケーション名>
 $ vi Gemfile # コピペ
 $ vi Dockerfile # コピペ
 $ vi config/database.yml # 以下をコピペ
+
+$ docker-compose exec webapp_server bash
 ```
 
 
@@ -46,6 +48,8 @@ $ cd <アプリケーション名>_frontend
 $ yarn
 $ vi Dockerfile # コピペ
 $ vi nuxt.config.js # 以下を書き換える -> エラー出る
+
+$ docker exec -it web_frontend sh # node-alpineはbashで入れない
 ```
 
 ```
