@@ -46,6 +46,7 @@ gem "sidekiq"
 gem "sidekiq-failures"
 gem "slack-api"
 gem "slack-notifier"
+gem "therubyracer"
 gem "unicorn"
 gem "whenever"
 
